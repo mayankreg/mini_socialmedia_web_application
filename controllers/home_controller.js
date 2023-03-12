@@ -3,3 +3,5 @@ module.exports.home = function(request, response){
         title: 'Home'
     });
 }
+
+// module.exports.actionName = function(req, res){}
