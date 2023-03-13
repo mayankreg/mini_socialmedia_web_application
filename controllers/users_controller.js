@@ -8,6 +8,10 @@ module.exports.profile = function(request, response){
 
 // render sign up page
 module.exports.signUp = function(request, response){
+    if(request.isAuthenticated()){
+        return response.redirect('/users/profile');
+    }
+
     return response.render('user_sign_up', {
         title: 'Codeial | Sign Up!'
     });
@@ -15,6 +19,10 @@ module.exports.signUp = function(request, response){
 
 // render sign in page
 module.exports.signIn = function(request, response){
+    if(request.isAuthenticated()){
+        return response.redirect('/users/profile');
+    }
+
     return response.render('user_sign_in', {
         title: 'Codeial | Sign In!'
     });
@@ -47,6 +55,13 @@ module.exports.create = function(request, response){
 }
 
 // get sign in data
-module.exports.createSession = function(request, response){
-    
+module.exports.createSession = function(request, response){    
+    return response.redirect('/');
+}
+
+module.exports.destroySession = function(request, response){
+    request.logout(function(err) {
+        if (err) { return next(err)}
+    });
+    return response.redirect('/');
 }

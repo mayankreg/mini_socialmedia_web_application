@@ -7,11 +7,16 @@
     <title><%= title %></title>
     
     <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <%- style %>
 </head>
 <body>
     <%- include('partial_header'); %>
-    <%- body %>
+    <main id="layout-main">
+        <%- body %>
+    </main>
+    
     <%- include('partial_footer'); %>
 
     <%- script %>
