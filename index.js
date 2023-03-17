@@ -7,6 +7,7 @@ const db = require('./config/mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy').Strategy;
+const passportJWT = require('./config/passport-jwt-strategy');
 
 app.use(express.urlencoded());
 const cookieParser = require('cookie-parser');
@@ -14,6 +15,8 @@ app.use(cookieParser());
 
 const MongoStore = require('connect-mongo')(session);
 const sassMiddleware = require('node-sass-middleware');
+const flash = require('connect-flash');
+const customMware = require('./config/middleware');
 
 app.use(sassMiddleware({
     src: './assets/scss',
@@ -26,6 +29,8 @@ app.use(sassMiddleware({
 // where to lookout for static files
 app.use(express.static('./assets'));
 
+// make the uploads path available to browser
+app.use('/uploads', express.static(__dirname + '/uploads'));
 // use ejs layouts : before routers
 app.use(expressLayouts);
 
@@ -62,6 +67,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
+
+app.use(flash());
+app.use(customMware.setFlash);
 
 // use express router
 app.use('/', require('./routes'));
